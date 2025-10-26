@@ -1,15 +1,3 @@
-Absolutely 🔥 — here’s a **complete, professional README.md** for your project — formatted, accurate, and ready to copy-paste directly into your repo root.
-
-This version assumes your project folder has this structure:
-
-```
-/ (Next.js frontend)
-└── backend/ (Express backend)
-```
-
-and that you’ve implemented Google login, Gmail fetching, and Gemini classification as we’ve built.
-
----
 
 # 📧 Email Classifier — Next.js + Express + Gemini AI
 
@@ -273,16 +261,6 @@ Built with ❤️ using:
 
 ---
 
-## 🧩 Author
-
-**Sai Kumar**
-💡 Personal Project — “Email Classifier”
-📫 Contributions welcome!
-
----
-
-✅ **Now your repo looks professional and documented.**
-You can copy everything above into `README.md` at your repo root.
 
 ---
 
