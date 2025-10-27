@@ -44,25 +44,25 @@ function fallbackClassify(text) {
   return "General";
 }
 
-// function buildClassificationPrompt(emails) {
-//   const header = `You are an email classifier. Classify each email into ONE of these categories exactly:
-// Important, Promotions, Social, Marketing, Spam, General.
-// Return only valid JSON (no explanations), mapping email id to category. Example:
-// {"<id1>":"Important","<id2>":"Promotions"}
+function buildClassificationPrompt(emails) {
+  const header = `You are an email classifier. Classify each email into ONE of these categories exactly:
+Important, Promotions, Social, Marketing, Spam, General.
+Return only valid JSON (no explanations), mapping email id to category. Example:
+{"<id1>":"Important","<id2>":"Promotions"}
 
-// Now classify the following emails. Use the subject and snippet primarily.
+Now classify the following emails. Use the subject and snippet primarily.
 
-// Emails:\n`;
-//   const items = emails
-//     .map((e) => {
-//       const subj = (e.subject || "").replace(/\n/g, " ");
-//       const snip = (e.snippet || "").replace(/\n/g, " ");
-//       return `-- id: ${e.id}\nsubject: ${subj}\nsnippet: ${snip}\n`;
-//     })
-//     .join("\n");
+Emails:\n`;
+  const items = emails
+    .map((e) => {
+      const subj = (e.subject || "").replace(/\n/g, " ");
+      const snip = (e.snippet || "").replace(/\n/g, " ");
+      return `-- id: ${e.id}\nsubject: ${subj}\nsnippet: ${snip}\n`;
+    })
+    .join("\n");
 
-//   return header + items + "\nReturn the JSON mapping only.";
-// }
+  return header + items + "\nReturn the JSON mapping only.";
+}
 
 function buildClassificationPrompt(emails) {
   const header = `
@@ -125,8 +125,7 @@ async function callGeminiWithSdk(apiKey, prompt) {
   const text = response?.response?.text || response?.text || "";
   return String(text);
 }
-//AIzaSyDhLyUx8ImYemdYXgdkIB38MGNlCvx0E8w
-//AIzaSyDhLyUx8ImYemdYXgdkIB38MGNlCvx0E8w
+
 // POST /api/classify
 // Expects: { emails: [ { id, subject, snippet, from, ... } ], apiKey?: string }
 // For this step we IGNORE apiKey and use fallback rules
