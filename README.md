@@ -262,6 +262,3 @@ Built with ❤️ using:
 ---
 
 
----
-
-Would you like me to generate a matching **`LICENSE (MIT)` file** and **favicon setup guide** so the site tab looks branded (instead of the default Next.js one)?
