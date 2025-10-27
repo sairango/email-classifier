@@ -215,43 +215,8 @@ logs
 .DS_Store
 ```
 
----
 
-## 🪄 GitHub Upload Steps
-
-From your **project root** (not inside `backend`):
-
-```bash
-git init
-git add .
-git commit -m "Initial commit: Email Classifier with Gemini"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<repo-name>.git
-git push -u origin main
-```
-
-Done ✅
-Your project is now on GitHub.
-
-If using GitHub CLI:
-
-```bash
-gh repo create <repo-name> --public --source=. --remote=origin
-git push -u origin main
-```
-
----
-
-## 🧾 License
-
-This project is for learning and demo purposes.
-You can use or modify it freely — MIT License recommended.
-
----
-
-## 🙌 Credits
-
-Built with ❤️ using:
+Built with  using:
 
 * [Next.js](https://nextjs.org/)
 * [Express](https://expressjs.com/)
@@ -260,5 +225,12 @@ Built with ❤️ using:
 * [Tailwind CSS](https://tailwindcss.com)
 
 ---
+
+## APP SCREENSHOTS
+![Login Page](login_page.png)
+![Signing in](signing_in.png)
+![Emails](emails.png)
+![Classifying](classifying.png)
+![Classifications](classifications.png)
 
 
