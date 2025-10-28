@@ -11,7 +11,9 @@ const router = express.Router();
 function createOAuth2Client() {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  const redirectUri = `${(process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5000}`).replace(/\/$/, "")}/auth/google/callback`;
+  const redirectUri = `${(
+    process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5000}`
+  ).replace(/\/$/, "")}/auth/google/callback`;
   return new google.auth.OAuth2(clientId, clientSecret, redirectUri);
 }
 
@@ -52,7 +54,7 @@ router.get("/google/callback", async (req, res) => {
     // tokens contains: access_token, expires_in, refresh_token (maybe), scope, token_type, id_token
 
     // Save tokens in session (for demo). You can store profile info too.
-    // Ensure you have express-session configured in server.js so req.session exists.
+   
     req.session.tokens = tokens;
 
     // Optionally fetch basic profile (name/email) using the id_token or userinfo
@@ -70,7 +72,9 @@ router.get("/google/callback", async (req, res) => {
     };
 
     // Redirect back to frontend page where the app will call /api/emails
-    const frontendUrl = (process.env.FRONTEND_URL || "http://localhost:3000").replace(/\/$/, "");
+    const frontendUrl = (
+      process.env.FRONTEND_URL || "http://localhost:3000"
+    ).replace(/\/$/, "");
     return res.redirect(`${frontendUrl}/emails`);
   } catch (err) {
     console.error("Error exchanging code for tokens:", err);
@@ -83,7 +87,9 @@ router.get("/logout", (req, res) => {
   // Destroy the session on logout
   req.session.destroy(() => {
     res.clearCookie("connect.sid"); // express-session default cookie name
-    const frontendUrl = (process.env.FRONTEND_URL || "http://localhost:3000").replace(/\/$/, "");
+    const frontendUrl = (
+      process.env.FRONTEND_URL || "http://localhost:3000"
+    ).replace(/\/$/, "");
     res.redirect(frontendUrl || "/");
   });
 });
