@@ -6,6 +6,7 @@ dotenv.config();
 
 const router = express.Router();
 
+
 // Simple fallback classifier (keyword-based)
 function fallbackClassify(text) {
   const t = (text || "").toLowerCase();
@@ -44,48 +45,49 @@ function fallbackClassify(text) {
   return "General";
 }
 
-function buildClassificationPrompt(emails) {
-  const header = `You are an email classifier. Classify each email into ONE of these categories exactly:
-Important, Promotions, Social, Marketing, Spam, General.
-Return only valid JSON (no explanations), mapping email id to category. Example:
-{"<id1>":"Important","<id2>":"Promotions"}
+// function buildClassificationPrompt(emails) {
+//   const header = `You are an email classifier. Classify each email into ONE of these categories exactly:
+// Important, Promotions, Social, Marketing, Spam, General.
+// Return only valid JSON (no explanations), mapping email id to category. Example:
+// {"<id1>":"Important","<id2>":"Promotions"}
 
-Now classify the following emails. Use the subject and snippet primarily.
+// Now classify the following emails. Use the subject and snippet primarily.
 
-Emails:\n`;
-  const items = emails
-    .map((e) => {
-      const subj = (e.subject || "").replace(/\n/g, " ");
-      const snip = (e.snippet || "").replace(/\n/g, " ");
-      return `-- id: ${e.id}\nsubject: ${subj}\nsnippet: ${snip}\n`;
-    })
-    .join("\n");
+// Emails:\n`;
 
-  return header + items + "\nReturn the JSON mapping only.";
-}
+// const items = emails
+//     .map((e) => {
+//       const subj = (e.subject || "").replace(/\n/g, " ");
+//       const snip = (e.snippet || "").replace(/\n/g, " ");
+//       return `-- id: ${e.id}\nsubject: ${subj}\nsnippet: ${snip}\n`;
+//     })
+//     .join("\n");
+
+//   return header + items + "\nReturn the JSON mapping only.";
+// }
 
 function buildClassificationPrompt(emails) {
   const header = `
-You are a strict JSON generator.
-Your ONLY task is to classify each email into one of these categories exactly:
-["Important", "Promotions", "Social", "Marketing", "Spam", "General"].
+  You are a strict JSON generator.
+  Your ONLY task is to classify each email into one of these categories exactly:
+  "Important", "Promotions", "Social", "Marketing", "Spam", "General"].
 
-Rules:
-1. Output MUST be valid JSON — not markdown, not code blocks.
-2. Output MUST NOT include explanations, commentary, or backticks.
-3. Output MUST contain a single JSON object.
-4. Keys = the email "id" field.
-5. Values = one of the six allowed categories.
-6. Do not wrap the JSON in quotes.
+  Rules:
+    1. Output MUST be valid JSON — not markdown, not code blocks.
+    2. Output MUST NOT include explanations, commentary, or backticks.
+    3. Output MUST contain a single JSON object.
+    4. Keys = the email "id" field.
+    5. Values = one of the six allowed categories.
+    6. Do not wrap the JSON in quotes.
 
-Example output (this is the only format you should produce):
+  Example output (this is the only format you should produce):
 
-{
-  "123": "Promotions",
-  "456": "Important"
-}
+  {
+    "123": "Promotions",
+    "456": "Important"
+  }
 
-Now classify the following emails:
+  Now classify the following emails:
 
 `;
 
@@ -97,14 +99,12 @@ Now classify the following emails:
     })
     .join("\n");
 
-  const footer = `
-Return only the JSON object, nothing else.
-`;
+  const footer = `Return only the JSON object, nothing else.`;
 
   return header + emailList + footer;
 }
 
-// top of file (inside backend/routes/classify.js)
+
 
 /**
  * Call Gemini via the SDK using the provided API key and prompt.
@@ -114,21 +114,23 @@ async function callGeminiWithSdk(apiKey, prompt) {
   // create SDK client with the user's API key
   const ai = new GoogleGenAI({ apiKey });
 
-  // call generateContent
+  
   const response = await ai.models.generateContent({
     model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
     contents: prompt,
   });
 
-  // SDK shape: try to extract text. Different versions may return different shapes.
-  // Common: response.response.text or response.text
-  const text = response?.response?.text || response?.text || "";
+  
+  //const text = response?.response?.text || response?.text || "";
+  const text = response?.text || "";
   return String(text);
 }
 
-// POST /api/classify
+// POST /api/classify//
 // Expects: { emails: [ { id, subject, snippet, from, ... } ], apiKey?: string }
 // For this step we IGNORE apiKey and use fallback rules
+
+
 router.post("/classify", async (req, res) => {
   try {
     // require logged-in user
@@ -138,14 +140,14 @@ router.post("/classify", async (req, res) => {
 
     //const { emails } = req.body || {};
     const { emails, apiKey } = req.body || {};
-    console.log(apiKey);
+    //console.log(apiKey);
     if (!Array.isArray(emails)) {
       return res.status(400).json({ error: "Missing or invalid emails array" });
     }
 
     if (apiKey) {
       try {
-        const prompt = buildClassificationPrompt(emails); // reuse existing prompt builder
+        const prompt = buildClassificationPrompt(emails); 
         const modelText = await callGeminiWithSdk(apiKey, prompt);
 
         console.log(modelText);
