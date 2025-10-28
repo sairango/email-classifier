@@ -18,7 +18,7 @@ app.use(session({
   cookie: { secure: false, httpOnly: true, sameSite: "lax" },
 }));
 
-// mount routes AFTER session
+
 import authRoutes from "./routes/auth.js";
 import gmailRoutes from "./routes/gmail.js";
 import classifyRoutes from "./routes/classify.js";
