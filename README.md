@@ -51,7 +51,7 @@ Built with:
 
 ```
 📦 email-classifier
-├── app/                # Next.js app pages
+├── frontend             # Next.js app pages
 │   ├── page.tsx        # Login / Landing
 │   └── emails/page.tsx # Inbox / Classification page
 ├── backend/            # Express backend
@@ -61,12 +61,8 @@ Built with:
 │   │   └── classify.js # Gemini + fallback classifier
 │   ├── server.js       # Express server setup
 │   └── package.json
-├── public/             # Static assets
-├── styles/             # Global CSS (Tailwind)
-├── package.json        # Frontend dependencies
 └── README.md
 ```
-
 ---
 
 ## ⚙️ Setup Instructions
